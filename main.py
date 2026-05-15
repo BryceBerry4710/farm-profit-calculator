@@ -3,16 +3,22 @@
 import sys
 
 def main():
-        pick = input("Hello! Welcome to the farm calculator. What would you like to configure today?\nOPTIONS: POSITIVES, NEGATIVES, ALL")
 
-        if pick == ("POSITIVES"):
-                additives()
-        elif pick ==("NEGATIVES"):
-                negatives()
-        elif pick ==("ALL"):
-                all()
-        else:
-                sys.exit()
+        while True:
+                pick = input("Hello! Welcome to the farm calculator. What would you like to configure today?\nOPTIONS: POSITIVES, NEGATIVES, ALL, Q to quit.\n")
+
+        
+                if pick.upper() == ("POSITIVES"):
+                        additives()
+                elif pick.upper() ==("NEGATIVES"):
+                        negatives()
+                elif pick.upper() ==("ALL"):
+                        all()
+                elif pick.upper() == ("Q"):
+                        sys.exit()
+                else: 
+                        print("I couldn't quite catch what your input. Please select from the options listed.\n")
+        
 
 def additives():
         # Figuring Crops
