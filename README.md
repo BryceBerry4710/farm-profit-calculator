@@ -1,0 +1,2 @@
+This is my work in progress farm profit calculator. Eventually, it will be an app that farmers can potentially use to save money and easily predict what their income after expenses should look like. To run it, for now you press run, and tell the program if you want to find you additives,
+costs, or do both. I am building this because as a software developer and farmer, I want to build things that will help farmers, and is also built by a farmer.
