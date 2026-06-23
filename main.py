@@ -1,6 +1,8 @@
 '''This is afarm profit calculator. (Later feature will ask for how many crops being farmed and how many of each.) Current version will ask for total corn and soybeans,
         '''
 import sys
+import requests
+import time
 
 def get_float(question):
         while True:
@@ -12,6 +14,39 @@ def get_float(question):
                         return value
 
 
+def get_corn_prices():
+        try:
+                commodity = "corn"
+                api_key = "ok_b3e433a540909825c95ba67b2b974681"
+                response = requests.get("https://commodity-price-api.omkar.cloud/commodity-price",
+                params={"name": commodity},
+                headers={"API-Key": api_key}
+                )
+                data_corn = (response.json())
+                price_corn = data_corn['price_usd']
+                return price_corn
+
+        except:
+                print("Could not retrieve live corn price. Using default price.")
+                return 5.25
+
+
+def get_bean_prices():
+        try:
+                commodity = "soybean"
+                api_key = "ok_b3e433a540909825c95ba67b2b974681"
+                response = requests.get(
+                "https://commodity-price-api.omkar.cloud/commodity-price",
+                params={"name": commodity},
+                headers={"API-Key": api_key}
+                )
+                data_beans = (response.json())
+                price_beans = data_beans['price_usd']
+                return price_beans
+        except:
+                print("Could not retrieve live bean price. Using default price.")
+                return 11.50
+
 def main():
 
         while True:
@@ -22,6 +57,10 @@ def main():
                         negatives()
                 elif pick.upper() ==("ALL"):
                         all()
+                elif pick.upper() ==("CORN PRICE"):
+                        get_corn_prices()
+                elif pick.upper() ==("BEAN PRICE"):
+                        get_bean_prices()
                 elif pick.upper() == ("Q"):
                         sys.exit()
                 else: 
@@ -42,24 +81,34 @@ def additives():
         pop_total_corn = get_float("What was your average population per field in corn?")
         pop_total_beans = get_float("What was your average population per field in beans?")
         print(f"The stand rate is about 95%, so you can expect about {pop_total_corn * 0.95} corn stalks, and {pop_total_beans * 0.95} beans.")
+
         #Finding total average bushels expected.
         bushels_corn = get_float("How many bushels do you think you will average across your acres of corn? ")
         bushels_beans = get_float("How many bushels do you think you will average across your acres of beans?")
-              
+        time.sleep(0.5)
+        print("Calculating...")
+        time.sleep(1)
         #Finding comodity prices.
-        price_corn = get_float("What price do you expect to sell your corn at on average?")
-        price_beans = get_float("What price do you expect to sell your beans at on average?")
+        price_corn = get_corn_prices()
+        price_beans = get_bean_prices()
+        print(f"Looks like corn is currently selling for ${price_corn},\n Looks like soybeans are current selling for ${price_beans}  ")
+        time.sleep(1)
+       
+
         #Final Print Statement.
-        total_corn_plus = (bushels_corn * total_corn) * price_corn
-        total_beans_plus = (bushels_beans * total_soybeans) * price_beans
+        total_corn_plus = (bushels_corn * total_corn) * (price_corn)
+        total_beans_plus = (bushels_beans * total_soybeans) * (price_beans)
         final_plus = total_beans_plus + total_corn_plus
         print("-----TOTAL:-----")
+        time.sleep(2)
         print(f"In total, based on {price_corn} corn and {price_beans} beans, you're looking at:\n${total_corn_plus} roughly from corn,\n \
         and ${total_beans_plus} roughly from beans.")
         print(f"This totals out to be: {total_beans_plus + total_corn_plus} ")
+        time.sleep(5)
 
         return final_plus
 
+        
 def negatives():
 
         '''COSTS'''
