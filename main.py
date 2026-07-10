@@ -50,17 +50,24 @@ def get_bean_prices():
 def main():
 
         while True:
-                pick = input("Hello! Welcome to the farm calculator. What would you like to configure today?\nOPTIONS: \nPOSITIVES, \nNEGATIVES, \nALL, \nQ to quit.\n")
-                if pick.upper() == ("POSITIVES"):
+                pick = input("Hello! Welcome to the farm calculator. What would you like to configure today? " \
+                             "OPTIONS: \nREV = Revenue Calculator," \
+                             "\nCOSTS =Total Costs," \
+                             " \nALL = Total revenue, minus total costs., " \
+                             "\nQ = quit." \
+                             "\nBE = find what you need prices to average based on costs.  ")
+                if pick.upper() == ("REV"):
                         additives()
-                elif pick.upper() ==("NEGATIVES"):
+                elif pick.upper() ==("COSTS"):
                         negatives()
                 elif pick.upper() ==("ALL"):
                         all()
-                elif pick.upper() ==("CORN PRICE"):
+                elif pick.upper() ==("CORN"):
                         get_corn_prices()
-                elif pick.upper() ==("BEAN PRICE"):
+                elif pick.upper() ==("BEAN"):
                         get_bean_prices()
+                elif pick.upper() ==("BE"):
+                        break_even()
                 elif pick.upper() == ("Q"):
                         sys.exit()
                 else: 
@@ -120,15 +127,27 @@ def negatives():
         print("-----COSTS-----")
         total_costs = seed_cost + fert_cost + rent_cost
         print(f"Your total costs come out to be {seed_cost + fert_cost + rent_cost}")
+        time.sleep(5)
 
         return total_costs
+
+def break_even():
+        costs = negatives()
+        total_bushels = get_float("What is your expected total bushels?")
+        
+        break_even_price = round(costs / total_bushels, 2)
+
+        print(f"You need at least ${break_even_price} to break even.")
+        time.sleep(5)
+
+
 
 def all():
         revenue = additives()
         costs = negatives()
         final_all = revenue - costs
         print(f"Your total after your costs should come out to be around: ${final_all}")
-
+        time.sleep(5)
 
 
 if __name__ == '__main__':
